@@ -1,4 +1,4 @@
-
+import { getCssText } from "@/src/styles";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 
@@ -19,6 +19,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
+      <head>
+        <style
+          id="stitches"
+          dangerouslySetInnerHTML={{ __html: getCssText() }}
+        />
+      </head>
       <body className={`${roboto.className} min-h-full flex flex-col`}>
         {children}
       </body>
