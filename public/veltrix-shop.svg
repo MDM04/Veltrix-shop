@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="500" viewBox="0 0 1600 500" role="img" aria-labelledby="title desc">
+  <title id="title">Veltrix Shop</title>
+  <desc id="desc">Logo da Veltrix Shop com sacola azul e lettering branco.</desc>
+  <defs>
+    <linearGradient id="bagGradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#168BFF"/>
+      <stop offset="0.55" stop-color="#0865F5"/>
+      <stop offset="1" stop-color="#0737C9"/>
+    </linearGradient>
+    <linearGradient id="sideGradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#65B8FF"/>
+      <stop offset="1" stop-color="#1452D8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Motion lines -->
+  <g fill="#0878FF">
+    <rect x="24" y="236" width="118" height="24" rx="12"/>
+    <rect x="0" y="292" width="132" height="24" rx="12"/>
+    <rect x="42" y="348" width="88" height="24" rx="12"/>
+  </g>
+
+  <!-- Shopping bag handle -->
+  <path d="M260 145v-38c0-75 58-124 126-124s126 49 126 124v38h-34v-38c0-54-39-91-92-91s-92 37-92 91v38z" fill="#0878FF"/>
+
+  <!-- Shopping bag -->
+  <path d="M184 137 485 113c29-2 48 14 55 43l78 278c8 30-10 53-39 59l-280 55c-30 6-54-8-61-37L146 197c-7-29 8-56 38-60z" fill="url(#bagGradient)"/>
+  <path d="m184 137 82-7-28 412-0.5 0.1c-30 6-54-8-61-37L146 197c-7-29 8-56 38-60z" fill="url(#sideGradient)" opacity=".65"/>
+
+  <!-- White V mark -->
+  <path d="M265 218h78l91 133 86-133h78L455 410h-42z" fill="#fff"/>
+
+  <!-- Wordmark -->
+  <g fill="#fff" font-family="Arial, Helvetica, sans-serif" font-weight="800">
+    <text x="650" y="324" font-size="220" letter-spacing="-10">Veltrix</text>
+    <text x="1270" y="440" font-size="132" letter-spacing="-5" fill="#168BFF">Shop</text>
+  </g>
+  <circle cx="1434" cy="104" r="34" fill="#0878FF"/>
+</svg>
