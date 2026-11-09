@@ -1,26 +1,35 @@
-import { styled } from "@/src/styles"
 
-const Button = styled('button', {
-  backgroundColor: '$rocketseat',
-  borderRadius: 4,
-  border: 0,
-  padding: '4px 8px',
+import { Suspense } from "react";
+import { connection } from "next/server";
+import Stripe from "stripe";
+import { stripe } from "@/src/lib/stripe";
+import Home from "./home";
 
-  span: {
-    fontWeight: 'bold'
-  },
+async function Products() {
+  await connection();
 
-  '&:hover': {
-    filter: 'brightness(0.8)'
-  }
-})
-export default function Home() {
+  const response = await stripe.products.list({
+    expand: ["data.default_price"],
+  });
+
+  const products = response.data.map((product) => {
+    const price = product.default_price as Stripe.Price;
+
+    return {
+      id: product.id,
+      name: product.name,
+      imageUrl: product.images[0],
+      price: (price.unit_amount ?? 0) / 100,
+    };
+  });
+
+  return <Home products={products} />;
+}
+
+export default function Page() {
   return (
-    <>
-      <h1>Welcome to Next.js!</h1>
-      <Button>
-        <span>Testedassd</span>
-        Enviar
-      </Button></>
-  )
+    <Suspense fallback={<p>Carregando produtos...</p>}>
+      <Products />
+    </Suspense>
+  );
 }

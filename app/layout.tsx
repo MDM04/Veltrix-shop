@@ -39,6 +39,7 @@ export default function RootLayout({
               alt="Veltrix Shop"
               width={150}
               height={70}
+              loading="eager"
             />
           </Header>
 
