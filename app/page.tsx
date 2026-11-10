@@ -1,12 +1,14 @@
-
-import { Suspense } from "react";
-import { connection } from "next/server";
+import { cacheLife } from "next/cache";
 import Stripe from "stripe";
 import { stripe } from "@/src/lib/stripe";
 import Home from "./home";
 
 async function Products() {
-  await connection();
+  "use cache";
+
+  cacheLife({
+    revalidate: 60 * 60 * 2, // 2 horas
+  });
 
   const response = await stripe.products.list({
     expand: ["data.default_price"],
@@ -26,10 +28,6 @@ async function Products() {
   return <Home products={products} />;
 }
 
-export default function Page() {
-  return (
-    <Suspense fallback={<p>Carregando produtos...</p>}>
-      <Products />
-    </Suspense>
-  );
+export default async function Page() {
+  return <Products />;
 }
