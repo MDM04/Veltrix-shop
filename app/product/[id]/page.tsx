@@ -1,26 +1,52 @@
-
 import { Suspense } from "react";
+import { cacheLife } from "next/cache";
+import Stripe from "stripe";
+import { stripe } from "@/src/lib/stripe";
+import Product from "./product";
 
-type ProductProps = {
+type ProductPageProps = {
   params: Promise<{
     id: string;
   }>;
 };
 
-async function ProductDetails({ params }: ProductProps) {
-  const { id } = await params;
+async function getProduct(id: string) {
+  "use cache";
 
-  return <h1>Product {JSON.stringify({ id })}</h1>;
+  cacheLife({
+    revalidate: 60 * 60, // 1 hora
+  });
+
+  const product = await stripe.products.retrieve(id, {
+    expand: ["default_price"],
+  });
+
+  const price = product.default_price as Stripe.Price;
+
+  return {
+    id: product.id,
+    name: product.name,
+    imageUrl: product.images[0],
+    price: new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    }).format(price.unit_amount! / 100),
+    description: product.description,
+  };
 }
 
-export default function Product({ params }: ProductProps) {
-  return (
-    <main>
-      <h1>Product Details</h1>
+async function ProductDetails({ params }: ProductPageProps) {
+  const { id } = await params;
 
-      <Suspense fallback={<p>Loading product...</p>}>
-        <ProductDetails params={params} />
-      </Suspense>
-    </main>
+  const product = await getProduct(id);
+
+  return <Product product={product} />;
+}
+
+export default function ProductPage({ params }: ProductPageProps) {
+  return (
+    <Suspense fallback={<p>Carregando produto...</p>}>
+      <ProductDetails params={params} />
+    </Suspense>
   );
 }

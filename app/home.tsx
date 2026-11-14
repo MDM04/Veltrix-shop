@@ -1,10 +1,10 @@
-
 "use client";
 
 import { HomeContainer, Product } from "@/src/styles/home";
 import { useKeenSlider } from "keen-slider/react";
 import Image from "next/image";
 import "keen-slider/keen-slider.min.css";
+import Link from "next/link";
 
 interface HomeProps {
   products: {
@@ -26,12 +26,17 @@ export default function Home({ products }: HomeProps) {
   return (
     <HomeContainer ref={sliderRef} className="keen-slider">
       {products.map((product) => (
-        <Product key={product.id} className="keen-slider__slide">
+        <Product
+          as={Link}
+          href={`/product/${product.id}`}
+          key={product.id}
+          className="keen-slider__slide"
+        >
           <Image
             src={product.imageUrl}
             width={520}
             height={480}
-            alt=""
+            alt={product.name}
             loading="eager"
           />
 
